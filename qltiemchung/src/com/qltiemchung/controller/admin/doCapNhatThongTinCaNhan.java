@@ -42,6 +42,7 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		// Prepare BO, Objects, Message
 		CanBoBO canBoBO = new CanBoBO();
 		CanBo canBo = null;

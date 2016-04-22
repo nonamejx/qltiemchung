@@ -11,6 +11,7 @@ import com.qltiemchung.model.bean.Vacxin;
 public class VacxinDAO {
 	private String sqlGetTatCaVacxin = "SELECT maVacxin, tenVacxin, tacDung, chiDinh, chongChiDinh, tacDungPhu, maLoai FROM vacxin";
 	private String sqlGetVacxinTheoMa = "SELECT maVacxin, tenVacxin, tacDung, chiDinh, chongChiDinh, tacDungPhu, maLoai FROM vacxin WHERE maVacxin = ?";
+	private String sqlGetVacxinTheoMaLoaiVacxin = "SELECT maVacxin, tenVacxin, tacDung, chiDinh, chongChiDinh, tacDungPhu, maLoai FROM vacxin WHERE maLoai = ?";
 	private String sqlAddVacxin = "INSERT INTO vacxin (tenVacxin, tacDung, chiDinh, chongChiDinh, tacDungPhu, maLoai) VALUES (?, ?, ?, ?, ?, ?)";
 	private String sqlUpdateVacxin = "UPDATE vacxin SET tenVacxin = ?, tacDung = ?, chiDinh = ?, chongChiDinh = ?, tacDungPhu = ?, maLoai = ? WHERE maVacxin = ?";
 	private String sqlDeleteVacxin = "DELETE FROM vacxin WHERE maVacxin = ?";
@@ -28,6 +29,32 @@ public class VacxinDAO {
 		try {
 			con = SQLConnection.getConnection();
 			pstmt = con.prepareStatement(sqlGetTatCaVacxin);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				this.vacxin = new Vacxin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+				this.dsVacxin.add(this.vacxin);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLConnection.closeConnection(con);
+			SQLConnection.closePrepareStatement(pstmt);
+			SQLConnection.closeResultSet(rs);
+		}
+		
+		return this.dsVacxin;
+	}
+	
+	public ArrayList<Vacxin> getVacxinTheoMaLoaiVacxin(int maLoaiVacxin) {
+		this.dsVacxin = new ArrayList<Vacxin>();
+		
+		try {
+			con = SQLConnection.getConnection();
+			pstmt = con.prepareStatement(sqlGetVacxinTheoMaLoaiVacxin);
+			
+			pstmt.setInt(1, maLoaiVacxin);
+			
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {

@@ -6,7 +6,7 @@ import com.qltiemchung.model.bean.LoaiTinTuc;
 import com.qltiemchung.model.dao.LoaiTinTucDAO;
 
 public class LoaiTinTucBO {
-	private LoaiTinTucDAO dao;
+	private LoaiTinTucDAO dao = new LoaiTinTucDAO();
 	
 	public ArrayList<LoaiTinTuc> getTatCaLoaiTinTuc() {
 		return dao.getTatCaLoaiTinTuc();
