@@ -45,5 +45,4 @@ public class ThongTinCaNhanServlet extends HttpServlet {
 		MyUtils.putMessageBundle(request, bundle);
 		MyUtils.forward(getServletContext(), request, response, "/admin/thong-tin-ca-nhan.jsp");
 	}
-
 }
