@@ -16,18 +16,19 @@ import com.qltiemchung.utils.DateUtils;
 import com.qltiemchung.utils.MyUtils;
 import com.qltiemchung.utils.Validate;
 
+
 /**
- * Servlet implementation class doCapNhatThongTinCaNhan
+ * Servlet implementation class doCanBoThems
  */
-@WebServlet("/CapNhatThongTinCaNhan")
-public class doCapNhatThongTinCaNhan extends HttpServlet {
+@WebServlet("/doCanBoThem")
+public class doCanBoThem extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+
     /**
-     * @see HttpServlet#HttpServlet()
+     * Default constructor. 
      */
-    public doCapNhatThongTinCaNhan() {
-        super();
+    public doCanBoThem() {
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -41,41 +42,42 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/plain; charset=utf-8");
+		response.setCharacterEncoding("UTF-8");
 		
-		
-		// Prepare BO, Objects, Message
-		CanBoBO canBoBO = new CanBoBO();
-		CanBo canBo = null;
 		MessageBundle bundle = MyUtils.getMessageBundle(request);
+		
+		CanBoBO canBoBO = new CanBoBO();
+		CanBo canbo = null;
 		boolean hasError = false;
 		
-		// get parameters
-		String id = request.getParameter("id");
-		String ten = request.getParameter("ten");
+		
+		String tendn = request.getParameter("tendn");
+		String ten = request.getParameter("tencb");
 		String ngaySinh = request.getParameter("ngaySinh");
 		String gioiTinh = request.getParameter("gioiTinh");
 		String soDienThoai = request.getParameter("soDienThoai");
 		String diaChi = request.getParameter("diaChi");
-		String tenDangNhap = request.getParameter("tenDangNhap");
 		String matKhau = request.getParameter("matKhau");
 		
-		// validate data
-		if (!Validate.checkNumber(id)) {
-			response.sendRedirect(getServletContext().getContextPath() + "/ThongTinCaNhanServlet");
-			return;
-		}
+		
+		
 		if (!Validate.checkString(ten, 1, 100)) {
 			bundle.put("Tên không hợp lệ", MessageState.FAIL);
 			hasError = true;
 		}
+		
 		if (!Validate.checkDate(ngaySinh)) {
 			bundle.put("Ngày sinh không hợp lệ", MessageState.FAIL);
 			hasError = true;
 		}
+		
 		if (!Validate.checkPhone(soDienThoai)) {
 			bundle.put("Số điện thoại không hợp lệ", MessageState.FAIL);
 			hasError = true;
 		}
+		
 		if (!Validate.checkString(diaChi, 1, 200)) {
 			bundle.put("Địa chỉ không hợp lệ", MessageState.FAIL);
 			hasError = true;
@@ -84,25 +86,25 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 		// if error, return
 		if (hasError) {
 			MyUtils.putMessageBundle(request, bundle);
-			MyUtils.forward(getServletContext(), request, response, "/ThongTinCaNhanServlet");
+			MyUtils.forward(getServletContext(), request, response, "/CanBoThemServlet");
 			return;
 		}
 		
-		// can bo
-		canBo = new CanBo(Integer.parseInt(id) ,ten, tenDangNhap, matKhau, Integer.parseInt(gioiTinh), DateUtils.convertToSDate(ngaySinh), soDienThoai, diaChi);
-		
-		// update information
-		if (canBoBO.updateCanBo(canBo) > 0) {
+		canbo = new CanBo(ten, tendn, matKhau, Integer.parseInt(gioiTinh), DateUtils.convertToSDate(ngaySinh), soDienThoai, diaChi);
+		if (canBoBO.addCanBo(canbo) > 0) {
 			// success
-			bundle.put("Cập nhật thành công", MessageState.SUCCESS);
-			
+			bundle.put("Thêm thành công", MessageState.SUCCESS);
+			MyUtils.putMessageBundle(request, bundle);
+			MyUtils.forward(getServletContext(), request, response, "/CanBoThemServlet");
 		} else {
 			// failed
 			bundle.put("Có lỗi về dữ liệu, xin thử lại", MessageState.FAIL);
+			MyUtils.putMessageBundle(request, bundle);
+			MyUtils.forward(getServletContext(), request, response, "/CanBoThemServlet");
 		}
 		
 		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/ThongTinCaNhanServlet");
+		MyUtils.forward(getServletContext(), request, response, "/admin/can-bo-them.jsp");
 	}
 
 }

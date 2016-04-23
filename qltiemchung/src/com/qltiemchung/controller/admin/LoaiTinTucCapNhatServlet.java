@@ -10,20 +10,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.qltiemchung.model.bean.MessageBundle;
 import com.qltiemchung.model.bo.CanBoBO;
+import com.qltiemchung.model.bo.LoaiTinTucBO;
 import com.qltiemchung.utils.MyUtils;
 
 /**
- * Servlet implementation class ThongTinCaNhanServlet
+ * Servlet implementation class LoaiTinTucCapNhatServlet
  */
-@WebServlet("/ThongTinCaNhanServlet")
-public class ThongTinCaNhanServlet extends HttpServlet {
+@WebServlet("/LoaiTinTucCapNhatServlet")
+public class LoaiTinTucCapNhatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ThongTinCaNhanServlet() {
+    public LoaiTinTucCapNhatServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -37,15 +39,17 @@ public class ThongTinCaNhanServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	
-		
 		MessageBundle bundle = MyUtils.getMessageBundle(request);
 		
-		request.setAttribute("CanBo", new CanBoBO().getCanBo(1));
+		// ??
+		// vi sao ko lay id truyen mà truyen qua 1 :)))
+		String id = request.getParameter("maLoai");
 		
-		// 
+		request.setAttribute("LoaiTinTuc", new LoaiTinTucBO().getLoaiTinTuc(Integer.parseInt(id)));
+		
+		
 		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/admin/thong-tin-ca-nhan.jsp");
+		MyUtils.forward(getServletContext(), request, response, "/admin/loai-tin-tuc-cap-nhat.jsp");
 	}
+
 }

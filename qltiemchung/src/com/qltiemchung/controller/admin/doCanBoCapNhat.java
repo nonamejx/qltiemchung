@@ -19,14 +19,14 @@ import com.qltiemchung.utils.Validate;
 /**
  * Servlet implementation class doCapNhatThongTinCaNhan
  */
-@WebServlet("/CapNhatThongTinCaNhan")
-public class doCapNhatThongTinCaNhan extends HttpServlet {
+@WebServlet("/doCanBoCapNhat")
+public class doCanBoCapNhat extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public doCapNhatThongTinCaNhan() {
+    public doCanBoCapNhat() {
         super();
     }
 
@@ -41,7 +41,6 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		
 		// Prepare BO, Objects, Message
 		CanBoBO canBoBO = new CanBoBO();
@@ -61,7 +60,7 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 		
 		// validate data
 		if (!Validate.checkNumber(id)) {
-			response.sendRedirect(getServletContext().getContextPath() + "/ThongTinCaNhanServlet");
+			response.sendRedirect(getServletContext().getContextPath() + "/CanBoCapNhatServlet");
 			return;
 		}
 		if (!Validate.checkString(ten, 1, 100)) {
@@ -84,7 +83,7 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 		// if error, return
 		if (hasError) {
 			MyUtils.putMessageBundle(request, bundle);
-			MyUtils.forward(getServletContext(), request, response, "/ThongTinCaNhanServlet");
+			MyUtils.forward(getServletContext(), request, response, "/CanBoCapNhatServlet");
 			return;
 		}
 		
@@ -102,7 +101,7 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 		}
 		
 		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/ThongTinCaNhanServlet");
+		MyUtils.forward(getServletContext(), request, response, "/CanBoCapNhatServlet");
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.qltiemchung.controller.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,22 +9,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.qltiemchung.model.bean.LoaiTinTuc;
 import com.qltiemchung.model.bean.MessageBundle;
-import com.qltiemchung.model.bo.CanBoBO;
+import com.qltiemchung.model.bo.LoaiTinTucBO;
 import com.qltiemchung.utils.MyUtils;
 
 /**
- * Servlet implementation class ThongTinCaNhanServlet
+ * Servlet implementation class LoaiTinTucDanhSachServlet
  */
-@WebServlet("/ThongTinCaNhanServlet")
-public class ThongTinCaNhanServlet extends HttpServlet {
+@WebServlet("/LoaiTinTucDanhSachServlet")
+public class LoaiTinTucDanhSachServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ThongTinCaNhanServlet() {
+    public LoaiTinTucDanhSachServlet() {
         super();
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -37,15 +40,21 @@ public class ThongTinCaNhanServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/plain; charset=utf-8");
+		response.setCharacterEncoding("UTF-8");
 		
 		MessageBundle bundle = MyUtils.getMessageBundle(request);
+		ArrayList<LoaiTinTuc> arLoaiTinTuc = new ArrayList<LoaiTinTuc>();
 		
-		request.setAttribute("CanBo", new CanBoBO().getCanBo(1));
+		LoaiTinTucBO loaiTinTucBO = new LoaiTinTucBO();
+		arLoaiTinTuc = loaiTinTucBO.getTatCaLoaiTinTuc();
+		request.setAttribute("DanhSachLoaiTinTuc", arLoaiTinTuc);
 		
-		// 
+		
+		
 		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/admin/thong-tin-ca-nhan.jsp");
+		MyUtils.forward(getServletContext(), request, response, "/admin/loai-tin-tuc-danh-sach.jsp");
 	}
+
 }
