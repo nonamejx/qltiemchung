@@ -28,7 +28,7 @@
 			<div class="row">
 
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="x_panel" style="height: 600px;">
+					<div class="x_panel">
 						<div class="x_title">
 							<h2>Cập nhật tin tức</h2>
 							<div class="clearfix"></div>
@@ -121,6 +121,7 @@
 			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Địa chỉ <span class="required">*</span></label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
 			                        	<textarea required="required" name="noiDung" class="form-control col-md-7 col-xs-12"><c:out value="<%=tinTuc.getNoiDung()%>"></c:out> </textarea>
+		                        	</div>
 			                    </div>
 							
 								<div class="ln_solid"></div>
