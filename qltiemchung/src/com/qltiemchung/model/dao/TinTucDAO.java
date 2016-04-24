@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import com.qltiemchung.model.bean.TinTuc;
 
 public class TinTucDAO {
@@ -140,5 +139,67 @@ public class TinTucDAO {
 		}
 		
 		return result;
+	}
+	
+	// Lay 2 thong bao moi nhat
+	public ArrayList<TinTuc> getDsThongBao() {
+		ArrayList<TinTuc> dsThongBao = new ArrayList<TinTuc>();
+		String sql = "SELECT tintuc.maTin, tintuc.maLoaiTin, tintuc.nguoiViet, tintuc.ngayViet, tintuc.tieuDe, tintuc.noiDung"
+				+ " FROM tintuc INNER JOIN loaitintuc ON tintuc.maLoaiTin = loaitintuc.maLoai"
+				+ " WHERE loaitintuc.tenLoaiTin = ?"
+				+ " ORDER BY tintuc.ngayViet DESC LIMIT 0,2";
+		
+		try {
+			con = SQLConnection.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "Thông báo");
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				System.out.println(rs.getString(5));
+				tinTuc = new TinTuc(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getTimestamp(4), rs.getString(5), rs.getString(6));
+				dsThongBao.add(tinTuc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLConnection.closeConnection(con);
+			SQLConnection.closePrepareStatement(pstmt);
+			SQLConnection.closeResultSet(rs);
+		}
+		
+		return dsThongBao;
+		
+	}
+	
+	// lay danh sach tin tuc
+	public ArrayList<TinTuc> getDsTinTuc(int from, int to) {
+		dsTinTuc = new ArrayList<TinTuc>();
+		String sql = "SELECT tintuc.maTin, tintuc.maLoaiTin, tintuc.nguoiViet, tintuc.ngayViet, tintuc.tieuDe, tintuc.noiDung"
+				+ " FROM tintuc INNER JOIN loaitintuc ON tintuc.maLoaiTin = loaitintuc.maLoai"
+				+ " WHERE loaitintuc.tenLoaiTin = ?"
+				+ " ORDER BY tintuc.ngayViet DESC LIMIT ?,?";
+		
+		try {
+			con = SQLConnection.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "Tin tức");
+			pstmt.setInt(2, from);
+			pstmt.setInt(3, to);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				tinTuc = new TinTuc(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getTimestamp(4), rs.getString(5), rs.getString(6));
+				dsTinTuc.add(tinTuc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLConnection.closeConnection(con);
+			SQLConnection.closePrepareStatement(pstmt);
+			SQLConnection.closeResultSet(rs);
+		}
+		
+		return dsTinTuc;
 	}
 }

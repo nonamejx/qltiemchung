@@ -144,5 +144,58 @@ public class VacxinDAO {
 		return result;
 	}
 	
+	// kiet them -------------
+	
+	// tiem kiem vac xin
+	public ArrayList<Vacxin> search(String keyword, int from, int to) {
+		String sql = "SELECT * FROM vacxin WHERE tenVacxin LIKE ? LIMIT ?,?";
+		this.dsVacxin = new ArrayList<Vacxin>();
+		
+		try {
+			con = SQLConnection.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "%" + keyword.trim() + "%");
+			pstmt.setInt(2, from);
+			pstmt.setInt(3, to);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				this.vacxin = new Vacxin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+				this.dsVacxin.add(this.vacxin);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLConnection.closeConnection(con);
+			SQLConnection.closePrepareStatement(pstmt);
+			SQLConnection.closeResultSet(rs);
+		}
+		
+		return this.dsVacxin;
+	}
+	
+	// lay so ket qua tim duoc
+	public int searchedResult(String keyword) {
+		int searchedResult = 0;
+		String sql = "SELECT COUNT(*) FROM vacxin WHERE tenVacxin LIKE ?";
+		
+		try {
+			con = SQLConnection.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "%" + keyword.trim() + "%");
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				searchedResult = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLConnection.closeConnection(con);
+			SQLConnection.closePrepareStatement(pstmt);
+			SQLConnection.closeResultSet(rs);
+		}
+		return searchedResult;
+	}
 	
 }

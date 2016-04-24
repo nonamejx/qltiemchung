@@ -28,4 +28,11 @@ public class VacxinBO {
 		return dao.deleteVacxin(maVacxin);
 	}
 	
+	public ArrayList<Vacxin> search(String keyword, int from, int to) {
+		return dao.search(keyword, from, to);
+	}
+	
+	public int searchedResult(String keyword) {
+		return dao.searchedResult(keyword);
+	}
 }
