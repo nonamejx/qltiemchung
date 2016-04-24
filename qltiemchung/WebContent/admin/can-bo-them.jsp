@@ -53,17 +53,72 @@
 						<!-- /Message -->
 						<div class="x_content">
 						<%CanBo canbo = (CanBo)request.getAttribute("canbo"); %>
-							<form action="<%=request.getContextPath()%>/doCanBoThem" method = "post">
+							<form class="form-horizontal form-label-left" novalidate action="<%=request.getContextPath()%>/doCanBoThem" method="post">
 								
-								Tên đăng nhập: <input type = "text" name = "tendn" value = ""/><br />
-								Tên cán bộ: <input type = "text" name = "ten" value = ""/></br />
-								Giới tính: <input type = "text" name = "gioiTinh" value = ""/></br />
-								Ngày sinh: <input type = "text" name = "ngaySinh" value = ""/></br />
-								Số điện thoại: <input type = "text" name = "soDienThoai" value = ""/></br />
-								Địa chỉ: <input type = "text" name = "diaChi" value = ""/></br />
-								<input type = "submit" name = "submit" value = "Thêm"/>
-								<input type = "reset" name = "reset" value = "Reset"/>
-								
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										for="name">Tên <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input id="ten" class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+											name="tencb" placeholder="Tên đầy đủ, ví dụ: Nguyễn Nam"
+											required="required" type="text">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										for="birthday"> Ngày sinh<span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input name="ngaySinh" type="text" class="form-control col-md-7 col-xs-12"
+											data-inputmask="'mask': '99/99/9999'" required="required">
+									</div>
+								</div>
+								<div class="item form-group">
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12">Giới tính</label>
+			                      	<div class="col-md-6 col-sm-6 col-xs-12">
+			                        	<select class="form-control" name="gioiTinh">
+			                          		<option value="1">Nam</option>
+			                          		<option value="2">Nữ</option>
+					                        <option value="3">Khác</option>
+			                        	</select>
+			                      	</div>
+		                      	</div>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										for="number">Số điện thoại <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input type="number" name="soDienThoai" required="required"
+											class="form-control col-md-7 col-xs-12">
+									</div>
+								</div>
+								<div class="item form-group">
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Địa chỉ <span class="required">*</span></label>
+			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
+			                        	<textarea required="required" name="diaChi" class="form-control col-md-7 col-xs-12"><c:out value="${CanBo.getDiaChi() }"></c:out> </textarea>
+			                      	</div>
+		                    	</div>
+		                    	<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										for="name">Tên đăng nhập <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+											name="tendn" required="required" type="text">
+									</div>
+								</div>
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										for="name">Mật khẩu <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input class="form-control col-md-7 col-xs-12" data-validate-length-range="6"
+											name="matKhau" required="required" type="text">
+									</div>
+								</div>
+								<div class="ln_solid"></div>
+								<div class="form-group">
+									<div class="col-md-6 col-md-offset-3">
+										<button id="send" type="submit" class="btn btn-success">Thêm</button>
+										<a href="<%=request.getContextPath() %>/CanBoDanhSachServlet" class="btn btn-default">Hủy</a>
+									</div>
+								</div>
 								
 							
 							</form>
@@ -77,7 +132,61 @@
 	</tiles:putAttribute>
 	
 	<tiles:putAttribute name="javascript-source">
-		
+		<!-- input mask -->
+		<script
+			src="<%=request.getContextPath()%>/resources/production/js/input_mask/jquery.inputmask.js"></script>
+		<!-- input_mask -->
+	  	<script>
+	    	$(document).ready(function() {
+	      		$(":input").inputmask();
+	    	});
+	  	</script>
+	  	<!-- /input mask -->
+		<!-- form validation -->
+		<script
+			src="<%=request.getContextPath()%>/resources/production/js/validator/validator.js"></script>
+		<script>
+			// initialize the validator function
+			validator.message['date'] = 'not a real date';
+
+			// validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+			$('form').on('blur',
+					'input[required], input.optional, select.required',
+					validator.checkField).on('change', 'select.required',
+					validator.checkField).on('keypress',
+					'input[required][pattern]', validator.keypress);
+
+			$('.multi.required').on('keyup blur', 'input', function() {
+				validator.checkField.apply($(this).siblings().last()[0]);
+			});
+
+			// bind the validation to the form submit event
+			//$('#send').click('submit');//.prop('disabled', true);
+
+			$('form').submit(function(e) {
+				e.preventDefault();
+				var submit = true;
+				// evaluate the form using generic validaing
+				if (!validator.checkAll($(this))) {
+					submit = false;
+				}
+
+				if (submit)
+					this.submit();
+				return false;
+			});
+
+			/* FOR DEMO ONLY */
+			$('#vfields').change(function() {
+				$('form').toggleClass('mode2');
+			}).prop('checked', false);
+
+			$('#alerts').change(function() {
+				validator.defaults.alerts = (this.checked) ? false : true;
+				if (this.checked)
+					$('form .alert').remove();
+			}).prop('checked', false);
+		</script>
 	</tiles:putAttribute>
 
 </tiles:insertTemplate>

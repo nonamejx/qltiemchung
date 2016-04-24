@@ -54,13 +54,32 @@
 						<div class="x_content">
 							<!-- Put your code here -->
 							<%LoaiTinTuc loaiTinTuc = (LoaiTinTuc)request.getAttribute("LoaiTinTuc"); %>
-							<form action="<%=request.getContextPath()%>/doLoaiTinTucCapNhat" method = "post">
-								Mã loại: <input type = "text" name = "maLoai" value = "<%=loaiTinTuc.getMaLoai()%>"/><br />
-								Tên loại: <input type = "text" name = "tenLoai" value = "<%=loaiTinTuc.getTenLoai()%>"/><br />
-								Mô tả: <input type = "text" name = "moTa" value = "<%=loaiTinTuc.getMoTa()%>"/><br />
-								<input type = "submit" name = "submit" value = "Sửa"/>
-								<input type = "reset" name = "reset" value = "Reset"/>
-								<input type = "button" name = "huy" value = "Hủy"/>
+							<form class="form-horizontal form-label-left" novalidate action="<%=request.getContextPath()%>/doLoaiTinTucCapNhat" method="post">
+							
+								<input type = "hidden" name = "maLoai" value = "<%=loaiTinTuc.getMaLoai()%>"/><br />
+								<div class="item form-group">
+									<label class="control-label col-md-3 col-sm-3 col-xs-12"
+										for="name">Tên loại <span class="required">*</span></label>
+									<div class="col-md-6 col-sm-6 col-xs-12">
+										<input id="ten" class="form-control col-md-7 col-xs-12" value="<%=loaiTinTuc.getTenLoai()%>"
+											data-validate-length-range="6"
+											name="tenLoai" placeholder="Tên loại tin tức, ví dụ: sự kiện"
+											required="required" type="text">
+									</div>
+								</div>
+								<div class="item form-group">
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Mô tả <span class="required">*</span></label>
+			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
+			                        	<textarea required="required" name="moTa" class="form-control col-md-7 col-xs-12"><c:out value="<%=loaiTinTuc.getMoTa()%>"></c:out> </textarea>
+			                      	</div>
+		                    	</div>
+								<div class="ln_solid"></div>
+								<div class="form-group">
+									<div class="col-md-6 col-md-offset-3">
+										<button id="send" type="submit" class="btn btn-success">Cập nhật</button>
+										<a href="<%=request.getContextPath() %>/LoaiTinTucDanhSachServlet" class="btn btn-default">Hủy</a>
+									</div>
+								</div>
 							</form>
 							
 						</div>
@@ -72,7 +91,61 @@
 	</tiles:putAttribute>
 	
 	<tiles:putAttribute name="javascript-source">
-		
+		<!-- input mask -->
+		<script
+			src="<%=request.getContextPath()%>/resources/production/js/input_mask/jquery.inputmask.js"></script>
+		<!-- input_mask -->
+	  	<script>
+	    	$(document).ready(function() {
+	      		$(":input").inputmask();
+	    	});
+	  	</script>
+	  	<!-- /input mask -->
+		<!-- form validation -->
+		<script
+			src="<%=request.getContextPath()%>/resources/production/js/validator/validator.js"></script>
+		<script>
+			// initialize the validator function
+			validator.message['date'] = 'not a real date';
+
+			// validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+			$('form').on('blur',
+					'input[required], input.optional, select.required',
+					validator.checkField).on('change', 'select.required',
+					validator.checkField).on('keypress',
+					'input[required][pattern]', validator.keypress);
+
+			$('.multi.required').on('keyup blur', 'input', function() {
+				validator.checkField.apply($(this).siblings().last()[0]);
+			});
+
+			// bind the validation to the form submit event
+			//$('#send').click('submit');//.prop('disabled', true);
+
+			$('form').submit(function(e) {
+				e.preventDefault();
+				var submit = true;
+				// evaluate the form using generic validaing
+				if (!validator.checkAll($(this))) {
+					submit = false;
+				}
+
+				if (submit)
+					this.submit();
+				return false;
+			});
+
+			/* FOR DEMO ONLY */
+			$('#vfields').change(function() {
+				$('form').toggleClass('mode2');
+			}).prop('checked', false);
+
+			$('#alerts').change(function() {
+				validator.defaults.alerts = (this.checked) ? false : true;
+				if (this.checked)
+					$('form .alert').remove();
+			}).prop('checked', false);
+		</script>
 	</tiles:putAttribute>
 
 </tiles:insertTemplate>

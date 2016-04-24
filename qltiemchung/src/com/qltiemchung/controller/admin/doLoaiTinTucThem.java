@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qltiemchung.model.bean.CanBo;
 import com.qltiemchung.model.bean.LoaiTinTuc;
 import com.qltiemchung.model.bean.MessageBundle;
 import com.qltiemchung.model.bean.MessageState;
@@ -64,7 +63,7 @@ public class doLoaiTinTucThem extends HttpServlet {
 			bundle.put("Mã loại không hợp lệ", MessageState.FAIL);
 			hasError = true;
 		}
-		
+		MyUtils.putMessageBundle(request, bundle);
 		if(hasError){
 			MyUtils.putMessageBundle(request, bundle);
 			MyUtils.forward(getServletContext(), request, response, "/LoaiTinTucThemServlet");
@@ -74,17 +73,14 @@ public class doLoaiTinTucThem extends HttpServlet {
 		if (loaiTinTucBO.addLoaiTinTuc(loaiTinTuc) > 0) {
 			// success
 			bundle.put("Thêm thành công", MessageState.SUCCESS);
-			MyUtils.putMessageBundle(request, bundle);
-			MyUtils.forward(getServletContext(), request, response, "/LoaiTinTucThemServlet");
 		} else {
 			// failed
 			bundle.put("Có lỗi về dữ liệu, xin thử lại", MessageState.FAIL);
-			MyUtils.putMessageBundle(request, bundle);
-			MyUtils.forward(getServletContext(), request, response, "/LoaiTinTucThemServlet");
+			
 		}
 		
 		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/admin/loai-tin-tuc-them.jsp");
+		MyUtils.forward(getServletContext(), request, response, "/LoaiTinTucThemServlet");
 	}
 
 }

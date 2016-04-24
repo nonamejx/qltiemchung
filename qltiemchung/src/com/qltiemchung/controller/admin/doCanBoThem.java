@@ -53,12 +53,13 @@ public class doCanBoThem extends HttpServlet {
 		boolean hasError = false;
 		
 		
-		String tendn = request.getParameter("tendn");
+		
 		String ten = request.getParameter("tencb");
 		String ngaySinh = request.getParameter("ngaySinh");
 		String gioiTinh = request.getParameter("gioiTinh");
 		String soDienThoai = request.getParameter("soDienThoai");
 		String diaChi = request.getParameter("diaChi");
+		String tendn = request.getParameter("tendn");
 		String matKhau = request.getParameter("matKhau");
 		
 		
@@ -94,17 +95,13 @@ public class doCanBoThem extends HttpServlet {
 		if (canBoBO.addCanBo(canbo) > 0) {
 			// success
 			bundle.put("Thêm thành công", MessageState.SUCCESS);
-			MyUtils.putMessageBundle(request, bundle);
-			MyUtils.forward(getServletContext(), request, response, "/CanBoThemServlet");
 		} else {
 			// failed
 			bundle.put("Có lỗi về dữ liệu, xin thử lại", MessageState.FAIL);
-			MyUtils.putMessageBundle(request, bundle);
-			MyUtils.forward(getServletContext(), request, response, "/CanBoThemServlet");
-		}
-		
+			}
 		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/admin/can-bo-them.jsp");
+		MyUtils.forward(getServletContext(), request, response, "/CanBoThemServlet");
+	
 	}
 
 }
