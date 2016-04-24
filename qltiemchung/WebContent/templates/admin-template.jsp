@@ -1,3 +1,5 @@
+<%@page import="com.qltiemchung.model.bean.UrlCollection"%>
+<%@page import="com.qltiemchung.utils.UrlUtils"%>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
@@ -24,6 +26,10 @@
 	
 	
 	<script src="<%=request.getContextPath() %>/resources/production/js/jquery.min.js"></script>
+	
+	<%
+		UrlUtils urlUtils = UrlUtils.getInstance(request);
+	%>
 </head>
 <body class="nav-md">
 
@@ -65,21 +71,21 @@
 							<ul class="nav side-menu">
 								<li><a><i class="fa fa-home"></i> Trang chủ <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="index.html">Dashboard</a></li>
+										<li><a href="#">Dashboard</a></li>
 									</ul></li>
 								<li>
 									<a><i class="fa fa-edit"></i> Vacxin <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="form.html">Danh sách vacxin</a></li>
-										<li><a href="form_advanced.html">Thêm vacxin</a></li>
-										<li><a href="form_advanced.html">Danh sách loại vacxin</a></li>
-										<li><a href="form_advanced.html">Thêm loại vacxin</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.VACXIN_DANH_SACH)%>">Danh sách vacxin</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.VACXIN_THEM_MOI)%>">Thêm vacxin</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.LOAI_VACXIN_DANH_SACH)%>">Danh sách loại vacxin</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.LOAI_VACXIN_THEM_MOI)%>">Thêm loại vacxin</a></li>
 									</ul>
 								</li>
 								<li><a><i class="fa fa-desktop"></i> Khách tiêm <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="general_elements.html">Danh sách khách tiêm</a></li>
-										<li><a href="media_gallery.html">Thêm khách tiêm</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.KHACH_TIEM_DANH_SACH)%>">Danh sách khách tiêm</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.KHACH_TIEM_THEM_MOI)%>">Thêm khách tiêm</a></li>
 									</ul>
 								</li>
 								<li><a><i class="fa fa-desktop"></i> Lịch tiêm phòng <span class="fa fa-chevron-down"></span></a>
@@ -90,8 +96,8 @@
 								</li>
 								<li><a><i class="fa fa-table"></i> Cán bộ <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="tables.html">Danh sách cán bộ</a></li>
-										<li><a href="tables_dynamic.html">Thêm cán bộ</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.CAN_BO_DANH_SACH)%>">Danh sách cán bộ</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.CAN_BO_THEM_MOI)%>">Thêm cán bộ</a></li>
 									</ul>
 								</li>
 								<li><a><i class="fa fa-bar-chart-o"></i> Kết quả tiêm <span class="fa fa-chevron-down"></span></a>
@@ -102,10 +108,10 @@
 								</li>
 								<li><a><i class="fa fa-table"></i> Tin tức <span class="fa fa-chevron-down"></span></a>
 									<ul class="nav child_menu" style="display: none">
-										<li><a href="tables.html">Danh sách tin tức</a></li>
-										<li><a href="tables_dynamic.html">Thêm tin tức</a></li>
-										<li><a href="tables_dynamic.html">Danh sách loại tin tức</a></li>
-										<li><a href="tables_dynamic.html">Thêm loại tin tức</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.TIN_TUC_DANH_SACH)%>">Danh sách tin tức</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.TIN_TUC_THEM_MOI)%>">Thêm tin tức</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.LOAI_TIN_TUC_DANH_SACH)%>">Danh sách loại tin tức</a></li>
+										<li><a href="<%=urlUtils.getPath(UrlCollection.LOAI_TIN_TUC_THEM_MOI)%>">Thêm loại tin tức</a></li>
 									</ul>
 								</li>
 							</ul>
