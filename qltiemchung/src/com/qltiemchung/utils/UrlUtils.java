@@ -17,7 +17,7 @@ public class UrlUtils {
 		return instance;
 	}
 
-	public UrlUtils(HttpServletRequest request) {
+	private UrlUtils(HttpServletRequest request) {
 		this.request = request;
 	}
 
