@@ -15,6 +15,8 @@ public class VacxinDAO {
 	private String sqlAddVacxin = "INSERT INTO vacxin (tenVacxin, tacDung, chiDinh, chongChiDinh, tacDungPhu, maLoai) VALUES (?, ?, ?, ?, ?, ?)";
 	private String sqlUpdateVacxin = "UPDATE vacxin SET tenVacxin = ?, tacDung = ?, chiDinh = ?, chongChiDinh = ?, tacDungPhu = ?, maLoai = ? WHERE maVacxin = ?";
 	private String sqlDeleteVacxin = "DELETE FROM vacxin WHERE maVacxin = ?";
+	private String sqlSearch = "SELECT * FROM vacxin WHERE tenVacxin LIKE ? LIMIT ?,?";
+	private String sqlResult = "SELECT COUNT(*) FROM vacxin WHERE tenVacxin LIKE ?";
 	
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
@@ -171,16 +173,13 @@ public class VacxinDAO {
 		return result;
 	}
 	
-	// kiet them -------------
-	
 	// tiem kiem vac xin
 	public ArrayList<Vacxin> search(String keyword, int from, int to) {
-		String sql = "SELECT * FROM vacxin WHERE tenVacxin LIKE ? LIMIT ?,?";
 		this.dsVacxin = new ArrayList<Vacxin>();
 		
 		try {
 			con = SQLConnection.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sqlSearch);
 			pstmt.setString(1, "%" + keyword.trim() + "%");
 			pstmt.setInt(2, from);
 			pstmt.setInt(3, to);
@@ -204,11 +203,10 @@ public class VacxinDAO {
 	// lay so ket qua tim duoc
 	public int searchedResult(String keyword) {
 		int searchedResult = 0;
-		String sql = "SELECT COUNT(*) FROM vacxin WHERE tenVacxin LIKE ?";
 		
 		try {
 			con = SQLConnection.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sqlResult);
 			pstmt.setString(1, "%" + keyword.trim() + "%");
 			rs = pstmt.executeQuery();
 			

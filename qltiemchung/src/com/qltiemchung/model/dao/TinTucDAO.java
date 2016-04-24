@@ -13,6 +13,14 @@ public class TinTucDAO {
 	private String sqlAddTinTuc = "INSERT INTO tintuc (maLoaiTin, nguoiViet, ngayViet, tieuDe, noiDung) VALUES (?, ?, ?, ?, ?)";
 	private String sqlUpdateTinTuc = "UPDATE tintuc SET maLoaiTin = ?, ngayViet = ?, tieuDe = ?, noiDung = ? WHERE maTin = ?";
 	private String sqlDeleteTinTuc = "DELETE FROM tintuc WHERE maTin = ?";
+	private String sqlLayThongBao = "SELECT tintuc.maTin, tintuc.maLoaiTin, tintuc.nguoiViet, tintuc.ngayViet, tintuc.tieuDe, tintuc.noiDung"
+			+ " FROM tintuc INNER JOIN loaitintuc ON tintuc.maLoaiTin = loaitintuc.maLoai"
+			+ " WHERE loaitintuc.tenLoaiTin = ?"
+			+ " ORDER BY tintuc.ngayViet DESC LIMIT 0,2";
+	private String sqlLayDSTinTuc = "SELECT tintuc.maTin, tintuc.maLoaiTin, tintuc.nguoiViet, tintuc.ngayViet, tintuc.tieuDe, tintuc.noiDung"
+			+ " FROM tintuc INNER JOIN loaitintuc ON tintuc.maLoaiTin = loaitintuc.maLoai"
+			+ " WHERE loaitintuc.tenLoaiTin = ?"
+			+ " ORDER BY tintuc.ngayViet DESC LIMIT ?,?";
 	
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
@@ -140,17 +148,13 @@ public class TinTucDAO {
 		return result;
 	}
 	
-	// Lay 2 thong bao moi nhat
+	// Lay thong bao
 	public ArrayList<TinTuc> getDsThongBao() {
 		ArrayList<TinTuc> dsThongBao = new ArrayList<TinTuc>();
-		String sql = "SELECT tintuc.maTin, tintuc.maLoaiTin, tintuc.nguoiViet, tintuc.ngayViet, tintuc.tieuDe, tintuc.noiDung"
-				+ " FROM tintuc INNER JOIN loaitintuc ON tintuc.maLoaiTin = loaitintuc.maLoai"
-				+ " WHERE loaitintuc.tenLoaiTin = ?"
-				+ " ORDER BY tintuc.ngayViet DESC LIMIT 0,2";
-		
+
 		try {
 			con = SQLConnection.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sqlLayThongBao);
 			pstmt.setString(1, "Thông báo");
 			rs = pstmt.executeQuery();
 			
@@ -174,14 +178,10 @@ public class TinTucDAO {
 	// lay danh sach tin tuc
 	public ArrayList<TinTuc> getDsTinTuc(int from, int to) {
 		dsTinTuc = new ArrayList<TinTuc>();
-		String sql = "SELECT tintuc.maTin, tintuc.maLoaiTin, tintuc.nguoiViet, tintuc.ngayViet, tintuc.tieuDe, tintuc.noiDung"
-				+ " FROM tintuc INNER JOIN loaitintuc ON tintuc.maLoaiTin = loaitintuc.maLoai"
-				+ " WHERE loaitintuc.tenLoaiTin = ?"
-				+ " ORDER BY tintuc.ngayViet DESC LIMIT ?,?";
-		
+
 		try {
 			con = SQLConnection.getConnection();
-			pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sqlLayDSTinTuc);
 			pstmt.setString(1, "Tin tức");
 			pstmt.setInt(2, from);
 			pstmt.setInt(3, to);
