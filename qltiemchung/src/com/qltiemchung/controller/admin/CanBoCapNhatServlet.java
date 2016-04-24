@@ -15,14 +15,14 @@ import com.qltiemchung.utils.MyUtils;
 /**
  * Servlet implementation class ThongTinCaNhanServlet
  */
-@WebServlet("/ThongTinCaNhanServlet")
-public class ThongTinCaNhanServlet extends HttpServlet {
+@WebServlet("/CanBoCapNhatServlet")
+public class CanBoCapNhatServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ThongTinCaNhanServlet() {
+    public CanBoCapNhatServlet() {
         super();
     }
 
@@ -38,14 +38,14 @@ public class ThongTinCaNhanServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-	
 		
-		MessageBundle bundle = MyUtils.getMessageBundle(request);
+		MessageBundle bundle = MyUtils.getMessageBundle(request);//tất cả các trang servlet đều có
 		
 		request.setAttribute("CanBo", new CanBoBO().getCanBo(1));
 		
 		// 
-		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/admin/thong-tin-ca-nhan.jsp");
+		MyUtils.putMessageBundle(request, bundle);//tất cả các trang servlet đều có
+		MyUtils.forward(getServletContext(), request, response, "/admin/can-bo-cap-nhat.jsp");
 	}
+
 }

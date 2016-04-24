@@ -1,22 +1,23 @@
-<%@page import="com.qltiemchung.utils.DateUtils"%>
+<%@page import="com.qltiemchung.model.bean.LoaiVacxin"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.qltiemchung.model.bean.Vacxin"%>
 <%@page import="com.qltiemchung.model.bean.MessageState"%>
-<%@page import="com.qltiemchung.model.bean.MessageBundle"%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<tiles:insertTemplate template="../templates/admin-template.jsp">
+<tiles:insertTemplate template="../templates/admin-template.jsp" >
 
 	<tiles:putAttribute name="content">
-	
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Thông tin cá nhân</h3>
+					<h3>Quản lý Vacxin</h3>
 				</div>
 
-				<div class="title_right"></div>
+				<div class="title_right">
+					
+				</div>
 			</div>
 			<div class="clearfix"></div>
 
@@ -25,12 +26,9 @@
 				<div class="col-md-12 col-sm-12 col-xs-12">
 					<div class="x_panel" style="height: 600px;">
 						<div class="x_title">
-							<h2>
-								Cập nhật<small>Thông tin cá nhân</small>
-							</h2>
+							<h2>Cập nhật vacxin</h2>
 							<div class="clearfix"></div>
 						</div>
-						
 						<!-- Message -->
 						<div class="col-md-6 col-sm-6 col-xs-6" style="float: none; margin: 0 auto;">
 							<!-- Success Message -->
@@ -55,75 +53,77 @@
 							
 						</div>
 						<!-- /Message -->
-						
 						<div class="x_content">
-							<form class="form-horizontal form-label-left" novalidate action="<%=request.getContextPath()%>/CanBoCapNhatServlet" method="post">
-								<input type="hidden" name="id" value="${CanBo.getMaCanBo() }" />
-								<input type="hidden" name="tenDangNhap" value="${CanBo.getTenDangNhap() }" />
-								<input type="hidden" name="matKhau" value="${CanBo.getMatKhau() }" />
-								
+							<!-- Put your code here -->
+							<form class="form-horizontal form-label-left" novalidate action="<%=request.getContextPath()%>/doVacxinCapNhat" method="post">
+							<% 	Vacxin vacxin = (Vacxin) request.getAttribute("vacxin");%>
+								<input type="hidden" name="maVacxin" value="<%=vacxin.getMaVacxin()%>">
 								<div class="item form-group">
 									<label class="control-label col-md-3 col-sm-3 col-xs-12"
-										for="name">Tên <span class="required">*</span></label>
+										for="name">Tên vacxin<span class="required">*</span></label>
 									<div class="col-md-6 col-sm-6 col-xs-12">
-										<input id="ten" class="form-control col-md-7 col-xs-12" value="${CanBo.getTenCanBo() }"
+										<input id="ten" class="form-control col-md-7 col-xs-12" value="<%=vacxin.getTenVacxin()%>"
 											data-validate-length-range="6"
-											name="ten" placeholder="Tên đầy đủ, ví dụ: Nguyễn Nam"
+											name="tenVacxin" placeholder="Tên đầy đủ, ví dụ: Pentaxin"
 											required="required" type="text">
 									</div>
 								</div>
 								<div class="item form-group">
-									<label class="control-label col-md-3 col-sm-3 col-xs-12"
-										for="birthday"> Ngày sinh<span class="required">*</span></label>
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<input name="ngaySinh" type="text" value="${CanBo.getFormattedBirtday() }"
-											class="form-control col-md-7 col-xs-12"
-											data-inputmask="'mask': '99/99/9999'" required="required">
-									</div>
-								</div>
-								<div class="item form-group">
-			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12">Giới tính</label>
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12">Loại vacxin<span class="required">*</span></label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12">
-			                        	<select class="form-control" name="gioiTinh">
-			                          		<option <c:if test="${CanBo.getGioiTinh() == 1 }"> selected="selected"</c:if> value="1">Nam</option>
-			                          		<option <c:if test="${CanBo.getGioiTinh() == 2 }"> selected="selected"</c:if> value="2">Nữ</option>
-					                        <option <c:if test="${CanBo.getGioiTinh() == 3 }"> selected="selected"</c:if> value="3">Khác</option>
+			                        	<select class="form-control" name="loaiVacxin">
+											<c:if test="${DanhSachLoaiVacxin.size()!=null && DanhSachLoaiVacxin.size()>0}">
+												<%	ArrayList<LoaiVacxin> dsLoaiVacxin = (ArrayList<LoaiVacxin>) request.getAttribute("DanhSachLoaiVacxin");
+												%>
+												<% for (LoaiVacxin loaiVx : dsLoaiVacxin) { %>
+													<option value="<%=loaiVx.getMaLoai()%>" <%if(loaiVx.getMaLoai()==vacxin.getMaLoai()){%>selected<% } %>><%=loaiVx.getTenLoai()%></option>
+												<% } %>
+											</c:if>
 			                        	</select>
 			                      	</div>
 		                      	</div>
 								<div class="item form-group">
-									<label class="control-label col-md-3 col-sm-3 col-xs-12"
-										for="number">Số điện thoại <span class="required">*</span></label>
-									<div class="col-md-6 col-sm-6 col-xs-12">
-										<input type="number" name="soDienThoai" value="${CanBo.getSoDienThoai() }"
-											required="required"
-											class="form-control col-md-7 col-xs-12">
-									</div>
-								</div>
-								<div class="item form-group">
-			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Địa chỉ <span class="required">*</span></label>
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Tác dụng </label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-			                        	<textarea required="required" name="diaChi" class="form-control col-md-7 col-xs-12"><c:out value="${CanBo.getDiaChi() }"></c:out> </textarea>
+			                        	<textarea name="tacDung" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getTacDung()%>"></c:out> </textarea>
+			                      	</div>
+		                    	</div>
+								<div class="item form-group">
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Chỉ định </label>
+			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
+			                        	<textarea name="chiDinh" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getChiDinh()%>"></c:out> </textarea>
+			                      	</div>
+		                    	</div>
+								<div class="item form-group">
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Chống Chỉ định </label>
+			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
+			                        	<textarea name="chongChiDinh" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getChongChiDinh()%>"></c:out> </textarea>
+			                      	</div>
+		                    	</div>
+		                    	<div class="item form-group">
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Tác dụng phụ </label>
+			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
+			                        	<textarea name="tacDungPhu" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getTacDungPhu()%>"></c:out> </textarea>
 			                      	</div>
 		                    	</div>
 								<div class="ln_solid"></div>
 								<div class="form-group">
 									<div class="col-md-6 col-md-offset-3">
-										<button id="send" type="submit" class="btn btn-success">Submit</button>
-										<button type="button" class="btn btn-primary">Cancel</button>
+										<button id="send" type="submit" class="btn btn-success">Cập nhật</button>
+										<a href="<%=request.getContextPath() %>/VacxinDanhSachServlet" class="btn btn-default">Hủy</a>
 									</div>
 								</div>
 							</form>
+							
 						</div>
-
+						
 					</div>
 				</div>
 			</div>
 		</div>
 	</tiles:putAttribute>
-
+	
 	<tiles:putAttribute name="javascript-source">
-
 		<!-- input mask -->
 		<script
 			src="<%=request.getContextPath()%>/resources/production/js/input_mask/jquery.inputmask.js"></script>
@@ -179,7 +179,6 @@
 					$('form .alert').remove();
 			}).prop('checked', false);
 		</script>
-
 	</tiles:putAttribute>
 
 </tiles:insertTemplate>

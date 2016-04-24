@@ -11,7 +11,7 @@ public class TinTucDAO {
 	private String sqlGetTatCaTinTuc = "SELECT maTin, maLoaiTin, ngayViet, ngayViet, tieuDe, noiDung FROM tintuc";
 	private String sqlGetTinTucTheoMa = "SELECT maTin, maLoaiTin, ngayViet, ngayViet, tieuDe, noiDung FROM tintuc WHERE maTin = ?";
 	private String sqlAddTinTuc = "INSERT INTO tintuc (maLoaiTin, nguoiViet, ngayViet, tieuDe, noiDung) VALUES (?, ?, ?, ?, ?)";
-	private String sqlUpdateTinTuc = "UPDATE tintuc SET nguoiViet = ?, ngayViet = ?, tieuDe = ?, noiDung = ? WHERE maTin = ?";
+	private String sqlUpdateTinTuc = "UPDATE tintuc SET maLoaiTin = ?, ngayViet = ?, tieuDe = ?, noiDung = ? WHERE maTin = ?";
 	private String sqlDeleteTinTuc = "DELETE FROM tintuc WHERE maTin = ?";
 	
 	private Connection con = null;
@@ -102,11 +102,10 @@ public class TinTucDAO {
 			pstmt = con.prepareStatement(sqlUpdateTinTuc);
 			
 			pstmt.setInt(1, tt.getMaLoaiTin());
-			pstmt.setInt(2, tt.getMaNguoiViet());
-			pstmt.setTimestamp(3, tt.getNgayViet());
-			pstmt.setString(4, tt.getTieuDe());
-			pstmt.setString(5, tt.getNoiDung());
-			pstmt.setInt(6, tt.getMaTin());
+			pstmt.setTimestamp(2, tt.getNgayViet());
+			pstmt.setString(3, tt.getTieuDe());
+			pstmt.setString(4, tt.getNoiDung());
+			pstmt.setInt(5, tt.getMaTin());
 			
 			result = pstmt.executeUpdate();
 			

@@ -1,6 +1,7 @@
 package com.qltiemchung.controller.admin;
 
 import java.io.IOException;
+import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,63 +9,52 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.qltiemchung.model.bean.CanBo;
+import com.qltiemchung.model.bean.KhachTiem;
 import com.qltiemchung.model.bean.MessageBundle;
 import com.qltiemchung.model.bean.MessageState;
-import com.qltiemchung.model.bo.CanBoBO;
+import com.qltiemchung.model.bo.KhachTiemBO;
 import com.qltiemchung.utils.DateUtils;
 import com.qltiemchung.utils.MyUtils;
 import com.qltiemchung.utils.Validate;
 
-/**
- * Servlet implementation class doCapNhatThongTinCaNhan
- */
-@WebServlet("/CapNhatThongTinCaNhan")
-public class doCapNhatThongTinCaNhan extends HttpServlet {
+@WebServlet("/doKhachTiemCapNhat")
+@SuppressWarnings("all")
+public class doKhachTiemCapNhat extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public doCapNhatThongTinCaNhan() {
+	private KhachTiemBO khachTiemBO = new KhachTiemBO();
+	private KhachTiem khachTiem = null;
+    public doKhachTiemCapNhat() {
         super();
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html");
 		
-		
-		// Prepare BO, Objects, Message
-		CanBoBO canBoBO = new CanBoBO();
-		CanBo canBo = null;
 		MessageBundle bundle = MyUtils.getMessageBundle(request);
 		boolean hasError = false;
 		
-		// get parameters
-		String id = request.getParameter("id");
-		String ten = request.getParameter("ten");
+		String maKhach = request.getParameter("maKhach");
+		String hoTen = request.getParameter("hoTen");
+		int gioiTinh = Integer.parseInt(request.getParameter("gioiTinh"));
 		String ngaySinh = request.getParameter("ngaySinh");
-		String gioiTinh = request.getParameter("gioiTinh");
-		String soDienThoai = request.getParameter("soDienThoai");
-		String diaChi = request.getParameter("diaChi");
 		String tenDangNhap = request.getParameter("tenDangNhap");
 		String matKhau = request.getParameter("matKhau");
+		String cmnd = request.getParameter("cmnd");
+		String email = request.getParameter("email");
+		String soDienThoai = request.getParameter("soDienThoai");
+		String diaChi = request.getParameter("diaChi");
 		
-		// validate data
-		if (!Validate.checkNumber(id)) {
-			response.sendRedirect(getServletContext().getContextPath() + "/ThongTinCaNhanServlet");
+		if (!Validate.checkNumber(maKhach)) {
+			response.sendRedirect(getServletContext().getContextPath() + "/KhachTiemDanhSachServlet");
 			return;
 		}
-		if (!Validate.checkString(ten, 1, 100)) {
+		if (!Validate.checkString(hoTen, 1, 100)) {
 			bundle.put("Tên không hợp lệ", MessageState.FAIL);
 			hasError = true;
 		}
@@ -76,33 +66,22 @@ public class doCapNhatThongTinCaNhan extends HttpServlet {
 			bundle.put("Số điện thoại không hợp lệ", MessageState.FAIL);
 			hasError = true;
 		}
-		if (!Validate.checkString(diaChi, 1, 200)) {
-			bundle.put("Địa chỉ không hợp lệ", MessageState.FAIL);
+		if (!Validate.checkEmail(email)) {
+			bundle.put("Email không hợp lệ.", MessageState.FAIL);
 			hasError = true;
 		}
-		
-		// if error, return
 		if (hasError) {
 			MyUtils.putMessageBundle(request, bundle);
-			MyUtils.forward(getServletContext(), request, response, "/ThongTinCaNhanServlet");
+			MyUtils.forward(getServletContext(), request, response, "/KhachTiemCapNhatServlet?makhach="+maKhach);
 			return;
 		}
-		
-		// can bo
-		canBo = new CanBo(Integer.parseInt(id) ,ten, tenDangNhap, matKhau, Integer.parseInt(gioiTinh), DateUtils.convertToSDate(ngaySinh), soDienThoai, diaChi);
-		
-		// update information
-		if (canBoBO.updateCanBo(canBo) > 0) {
-			// success
+		khachTiem = new KhachTiem(Integer.parseInt(maKhach), hoTen,gioiTinh, DateUtils.convertToSDate(ngaySinh), diaChi, tenDangNhap, matKhau, cmnd, email, soDienThoai);
+		if(khachTiemBO.updateKhachTiem(khachTiem) > 0){
 			bundle.put("Cập nhật thành công", MessageState.SUCCESS);
-			
-		} else {
-			// failed
+		}else{
 			bundle.put("Có lỗi về dữ liệu, xin thử lại", MessageState.FAIL);
 		}
-		
 		MyUtils.putMessageBundle(request, bundle);
-		MyUtils.forward(getServletContext(), request, response, "/ThongTinCaNhanServlet");
+		MyUtils.forward(getServletContext(), request, response, "/KhachTiemCapNhatServlet?makhach="+maKhach);
 	}
-
 }

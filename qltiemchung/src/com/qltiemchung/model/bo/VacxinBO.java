@@ -12,6 +12,10 @@ public class VacxinBO {
 		return dao.getTatCaVacxin();
 	}
 	
+	public ArrayList<Vacxin> getVacxinTheoMaLoaiVacxin(int maLoaiVacxin) {
+		return dao.getVacxinTheoMaLoaiVacxin(maLoaiVacxin);
+	}
+	
 	public Vacxin getVacxin(int maVacxin) {
 		return dao.getVacxin(maVacxin);
 	}
