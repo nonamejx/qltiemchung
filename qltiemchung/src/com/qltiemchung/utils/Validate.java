@@ -36,4 +36,11 @@ public class Validate {
 		}
 		return false;
 	}
+	
+	// kiet them
+	public static boolean checkKeyword(String value) {
+		if (value == null)
+            return false;
+		return value.matches("[a-zA-Z0-9_-ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+");
+	}
 }

@@ -15,6 +15,8 @@ public class VacxinDAO {
 	private String sqlAddVacxin = "INSERT INTO vacxin (tenVacxin, tacDung, chiDinh, chongChiDinh, tacDungPhu, maLoai) VALUES (?, ?, ?, ?, ?, ?)";
 	private String sqlUpdateVacxin = "UPDATE vacxin SET tenVacxin = ?, tacDung = ?, chiDinh = ?, chongChiDinh = ?, tacDungPhu = ?, maLoai = ? WHERE maVacxin = ?";
 	private String sqlDeleteVacxin = "DELETE FROM vacxin WHERE maVacxin = ?";
+	private String sqlSearch = "SELECT * FROM vacxin WHERE tenVacxin LIKE ? LIMIT ?,?";
+	private String sqlResult = "SELECT COUNT(*) FROM vacxin WHERE tenVacxin LIKE ?";
 	
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
@@ -171,5 +173,54 @@ public class VacxinDAO {
 		return result;
 	}
 	
+	// tiem kiem vac xin
+	public ArrayList<Vacxin> search(String keyword, int from, int to) {
+		this.dsVacxin = new ArrayList<Vacxin>();
+		
+		try {
+			con = SQLConnection.getConnection();
+			pstmt = con.prepareStatement(sqlSearch);
+			pstmt.setString(1, "%" + keyword.trim() + "%");
+			pstmt.setInt(2, from);
+			pstmt.setInt(3, to);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				this.vacxin = new Vacxin(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getInt(7));
+				this.dsVacxin.add(this.vacxin);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLConnection.closeConnection(con);
+			SQLConnection.closePrepareStatement(pstmt);
+			SQLConnection.closeResultSet(rs);
+		}
+		
+		return this.dsVacxin;
+	}
+	
+	// lay so ket qua tim duoc
+	public int searchedResult(String keyword) {
+		int searchedResult = 0;
+		
+		try {
+			con = SQLConnection.getConnection();
+			pstmt = con.prepareStatement(sqlResult);
+			pstmt.setString(1, "%" + keyword.trim() + "%");
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				searchedResult = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			SQLConnection.closeConnection(con);
+			SQLConnection.closePrepareStatement(pstmt);
+			SQLConnection.closeResultSet(rs);
+		}
+		return searchedResult;
+	}
 	
 }
