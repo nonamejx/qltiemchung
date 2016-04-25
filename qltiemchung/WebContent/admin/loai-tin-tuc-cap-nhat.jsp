@@ -10,7 +10,7 @@
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Cập nhật loại tin tức</h3>
+					<h3>Loại tin tức</h3>
 				</div>
 
 				<div class="title_right">
@@ -22,7 +22,7 @@
 			<div class="row">
 
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="x_panel" style="height: 600px;">
+					<div class="x_panel">
 						<div class="x_title">
 							<h2>Cập nhật loại tin tức</h2>
 							<div class="clearfix"></div>
@@ -70,7 +70,7 @@
 								<div class="item form-group">
 			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Mô tả <span class="required">*</span></label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-			                        	<textarea required="required" name="moTa" class="form-control col-md-7 col-xs-12"><c:out value="<%=loaiTinTuc.getMoTa()%>"></c:out> </textarea>
+			                        	<textarea rows="7" required="required" name="moTa" class="form-control col-md-7 col-xs-12"><c:out value="<%=loaiTinTuc.getMoTa()%>"></c:out> </textarea>
 			                      	</div>
 		                    	</div>
 								<div class="ln_solid"></div>

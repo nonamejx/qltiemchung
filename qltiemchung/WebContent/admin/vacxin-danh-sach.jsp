@@ -1,3 +1,5 @@
+<%@page import="com.qltiemchung.model.bean.UrlCollection"%>
+<%@page import="com.qltiemchung.utils.UrlUtils"%>
 <%@page import="com.qltiemchung.model.bean.LoaiVacxin"%>
 <%@page import="com.qltiemchung.model.bean.Vacxin"%>
 <%@page import="java.util.ArrayList"%>
@@ -9,10 +11,28 @@
 <tiles:insertTemplate template="../templates/admin-template.jsp" >
 
 	<tiles:putAttribute name="content">
+	
+		<!-- Custom styling plus plugins -->
+		<link href="css/custom.css" rel="stylesheet">
+		<link href="css/icheck/flat/green.css" rel="stylesheet">
+		
+		<link href="<%=request.getContextPath() %>/resources/production/js/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+		<link href="<%=request.getContextPath() %>/resources/production/js/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="<%=request.getContextPath() %>/resources/production/js/datatables/fixedHeader.bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="<%=request.getContextPath() %>/resources/production/js/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="<%=request.getContextPath() %>/resources/production/js/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<!-- /Custom styling plus plugins -->
+	
+		<!-- UrlUtils -->
+		<%
+			UrlUtils urlUtils = UrlUtils.getInstance(request);
+		%>
+		<!-- /UrlUtils -->
+	
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Quản lý Vacxin</h3>
+					<h3>Danh sách Vacxin</h3>
 				</div>
 
 				<div class="title_right">
@@ -24,9 +44,9 @@
 			<div class="row">
 
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="x_panel" style="height: 600px;">
+					<div class="x_panel">
 						<div class="x_title">
-							<h2>Danh sách vacxin</h2>
+							<a class="btn btn-success btn-sm" href="<%=urlUtils.getPath(UrlCollection.VACXIN_THEM_MOI)%>"><i class="fa fa-plus"></i> Thêm mới</a>
 							<div class="clearfix"></div>
 						</div>
 						<!-- Message -->
@@ -55,42 +75,94 @@
 						<!-- /Message -->
 						<div class="x_content">
 							<!-- Put your code here -->
-							<form action="VacxinDanhSachServlet" method="post">
-								Loại vacxin 
-								<select name="maLoaiVacxin">
-								<%String maLVX = (String) request.getAttribute("maLVX");
-								if(maLVX==null) maLVX = "-1";%>
-									<option value="tatca">---Tất cả---</option>
-									<c:if test="${DanhSachLoaiVacxin!=null && DanhSachLoaiVacxin.size()>0}">
-										<%ArrayList<LoaiVacxin> dsLoaiVacxin = (ArrayList<LoaiVacxin>) request.getAttribute("DanhSachLoaiVacxin");%>
-										<% for (LoaiVacxin loaiVx : dsLoaiVacxin) { %>
-											<option value="<%=loaiVx.getMaLoai()%>" <%if(loaiVx.getMaLoai()==Integer.parseInt(maLVX)){%>selected<% } %>><%=loaiVx.getTenLoai()%></option>
-										<% } %>
-									</c:if>
-								</select>
-								<input type="submit" value="Tìm" />
-							</form>
-							<a href="VacxinThemServlet">Thêm</a>
-							<c:if test="${DanhSachVacxin.size()!=null && DanhSachVacxin.size()>0}">
-								<%ArrayList<Vacxin> dsVacxin = (ArrayList<Vacxin>) request.getAttribute("DanhSachVacxin");%>
-					           <table border="1">
-					           	<tr>
-					           		<th>Tên</th>
-					           		<th>Tác dụng</th>
-					           		<th>Chức năng</th>
-					           	<tr>
-					           	<%for(Vacxin vacxin : dsVacxin){ %>
-					           	<tr>
-					           		<td><%=vacxin.getTenVacxin() %></td>
-					           		<td><%=vacxin.getTacDung() %></td>
-					           		<td><a href="VacxinCapNhatServlet?mavacxin=<%=vacxin.getMaVacxin()%>">Xem</a>
-					           		<a href="doVacxinXoa?mavacxin=<%=vacxin.getMaVacxin()%>" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a></td>
-					           	</tr>
-								<%} %>
-					           </table>
-							</c:if>
+							<!-- filter -->
+								<form class="form-horizontal" action="VacxinDanhSachServlet" method="post">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<input class="btn btn-default" type="text" disabled="disabled" value="Loại vacxin" />
+									</span> 
+									<select class="form-control" name="maLoaiVacxin">
+									<%String maLVX = (String) request.getAttribute("maLVX");
+									if(maLVX==null) maLVX = "-1";%>
+										<option value="tatca">---Tất cả---</option>
+										<c:if test="${DanhSachLoaiVacxin!=null && DanhSachLoaiVacxin.size()>0}">
+											<%ArrayList<LoaiVacxin> dsLoaiVacxin = (ArrayList<LoaiVacxin>) request.getAttribute("DanhSachLoaiVacxin");%>
+											<% for (LoaiVacxin loaiVx : dsLoaiVacxin) { %>
+												<option value="<%=loaiVx.getMaLoai()%>" <%if(loaiVx.getMaLoai()==Integer.parseInt(maLVX)){%>selected<% } %>><%=loaiVx.getTenLoai()%></option>
+											<% } %>
+										</c:if>
+									</select>
+									
+									
+									<span class="input-group-btn">
+										<input class="btn btn-primary" type="submit" value="Lọc" />
+								    </span>
+								</div>
+									
+								</form>
+							<!-- /filter -->
+							
+							<div class="x_title">
+								<div class="clearfix"></div>
+							</div>
+							
+				            <table id="datatable" class="table table-striped table-bordered">
+				            	<thead>
+									<tr>
+										<th>Tên</th>
+										<th>Tác dụng</th>
+										<th>Chức năng</th>
+									</tr>
+								</thead>
+					            <tbody>
+						            <c:if test="${DanhSachVacxin.size()!=null && DanhSachVacxin.size()>0}">
+								    <% ArrayList<Vacxin> dsVacxin = (ArrayList<Vacxin>) request.getAttribute("DanhSachVacxin");
+								   		 for(Vacxin vacxin : dsVacxin){ %>
+							           	 <tr>
+							           		 <td><%=vacxin.getTenVacxin() %></td>
+							           		 <td><%=vacxin.getTacDung() %></td>
+							           		 <td>
+							           		 	<a class="btn btn-primary btn-xs" href="VacxinCapNhatServlet?mavacxin=<%=vacxin.getMaVacxin()%>">Xem</a>
+							           		 	<a class="btn btn-danger btn-xs" href="#" data-toggle="modal" data-target=".bs-example-modal-sm">Xóa</a>
+							           		 </td>
+							           	 </tr>
+										 <%} %>
+									 </c:if>
+					             </tbody>
+				           	
+				           </table>
+							
 							
 						</div>
+						
+						<!-- modals -->
+						<div class="x_content">
+		                    <!-- Small modal -->
+			                <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Small modal</button> -->
+			
+			                <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+			                  <div class="modal-dialog modal-sm">
+			                    <div class="modal-content">
+			
+			                      <div class="modal-header">
+			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+			                        </button>
+			                        <h4 class="modal-title" id="myModalLabel2">Thông báo</h4>
+			                      </div>
+			                      <div class="modal-body">
+			                        <h4>Bạn có chắc muốn xóa thông tin này?</h4>
+			                      </div>
+			                      <div class="modal-header">
+				                      <div style="float:right">
+				                      	<button type="button" class="btn btn-sm btn-danger">Xóa</button>
+				                        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Đóng</button>
+				                      </div>
+			                      </div>
+			
+			                    </div>
+			                  </div>
+			                </div>
+				            <!-- /modals -->
 						
 					</div>
 				</div>
@@ -99,6 +171,84 @@
 	</tiles:putAttribute>
 	
 	<tiles:putAttribute name="javascript-source">
+	
+		<!-- Datatables-->
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/jquery.dataTables.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/dataTables.bootstrap.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/dataTables.buttons.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/buttons.bootstrap.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/jszip.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/pdfmake.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/vfs_fonts.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/buttons.html5.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/buttons.print.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/dataTables.fixedHeader.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/dataTables.keyTable.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/dataTables.responsive.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/responsive.bootstrap.min.js"></script>
+        <script src="<%=request.getContextPath() %>/resources/production/js/datatables/dataTables.scroller.min.js"></script>
+
+
+        <!-- pace -->
+        <script src="js/pace/pace.min.js"></script>
+        <script>
+          var handleDataTableButtons = function() {
+              "use strict";
+              0 !== $("#datatable-buttons").length && $("#datatable-buttons").DataTable({
+                dom: "Bfrtip",
+                buttons: [{
+                  extend: "copy",
+                  className: "btn-sm"
+                }, {
+                  extend: "csv",
+                  className: "btn-sm"
+                }, {
+                  extend: "excel",
+                  className: "btn-sm"
+                }, {
+                  extend: "pdf",
+                  className: "btn-sm"
+                }, {
+                  extend: "print",
+                  className: "btn-sm"
+                }],
+                responsive: !0
+              })
+            },
+            TableManageButtons = function() {
+              "use strict";
+              return {
+                init: function() {
+                  handleDataTableButtons()
+                }
+              }
+            }();
+        </script>
+        <script type="text/javascript">
+          $(document).ready(function() {
+            $('#datatable').dataTable({
+            	responsive : true,
+				language : {
+					"sProcessing" : "Đang xử lý...",
+					"sLengthMenu" : "Xem _MENU_ mục",
+					"sZeroRecords" : "Không tìm thấy dòng nào phù hợp",
+					"sInfo" : "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+					"sInfoEmpty" : "Đang xem 0 đến 0 trong tổng số 0 mục",
+					"sInfoFiltered" : "(được lọc từ _MAX_ mục)",
+					"sInfoPostFix" : "",
+					"sSearch" : "Tìm:",
+					"sUrl" : "",
+					"oPaginate" : {
+						"sFirst" : "Đầu",
+						"sPrevious" : "Trước",
+						"sNext" : "Tiếp",
+						"sLast" : "Cuối"
+					}
+				}
+            });
+          });
+          TableManageButtons.init();
+        </script>
 		
 	</tiles:putAttribute>
 

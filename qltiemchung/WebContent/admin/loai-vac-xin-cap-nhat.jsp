@@ -13,7 +13,7 @@
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Blank Page</h3>
+					<h3>Loại vacxin</h3>
 				</div>
 
 				<div class="title_right">
@@ -25,9 +25,9 @@
 			<div class="row">
 
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="x_panel" style="height: 600px;">
+					<div class="x_panel">
 						<div class="x_title">
-							<h2>Blank Page</h2>
+							<h2>Thông tin Loại vacxin</h2>
 							<div class="clearfix"></div>
 						</div>
 						<!-- Message -->
@@ -56,7 +56,6 @@
 						<!-- /Message -->
 						<div class="x_content">
 							<!-- Put your code here -->
-							<h1>CẬP NHẬT LOẠI VẮC XIN</h1>
 								<%
 									if(request.getAttribute("loaiVacXin")!=null){
 										LoaiVacxin loaiVacxin = (LoaiVacxin)request.getAttribute("loaiVacXin");
@@ -76,13 +75,13 @@
 													<div class="item form-group">
 							                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Mô tả </label>
 							                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-							                        	<textarea name="moTa" class="form-control col-md-7 col-xs-12"><c:out value="<%=loaiVacxin.getMoTa()%>"></c:out>  </textarea>
+							                        	<textarea rows="5" name="moTa" class="form-control col-md-7 col-xs-12"><c:out value="<%=loaiVacxin.getMoTa()%>"></c:out>  </textarea>
 							                      	</div>
 						                    	</div>
 						                    	<div class="item form-group">
 							                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Ghi chú </label>
 							                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-							                        	<textarea name="ghiChu" class="form-control col-md-7 col-xs-12"><c:out value="<%=loaiVacxin.getGhiChu()%>"></c:out> </textarea>
+							                        	<textarea rows="5" name="ghiChu" class="form-control col-md-7 col-xs-12"><c:out value="<%=loaiVacxin.getGhiChu()%>"></c:out> </textarea>
 							                      	</div>
 						                    	</div>
 												<div class="ln_solid"></div>

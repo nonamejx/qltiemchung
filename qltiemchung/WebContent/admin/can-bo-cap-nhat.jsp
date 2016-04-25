@@ -1,3 +1,5 @@
+<%@page import="com.qltiemchung.model.bean.UrlCollection"%>
+<%@page import="com.qltiemchung.utils.UrlUtils"%>
 <%@page import="com.qltiemchung.utils.DateUtils"%>
 <%@page import="com.qltiemchung.model.bean.MessageState"%>
 <%@page import="com.qltiemchung.model.bean.MessageBundle"%>
@@ -10,10 +12,15 @@
 
 	<tiles:putAttribute name="content">
 	
+		<!-- UrlUtils -->
+		<%
+			UrlUtils urlUtils = UrlUtils.getInstance(request);
+		%>
+		<!-- /UrlUtils -->
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Thông tin cá nhân</h3>
+					<h3>Cán bộ</h3>
 				</div>
 
 				<div class="title_right"></div>
@@ -23,10 +30,10 @@
 			<div class="row">
 
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="x_panel" style="height: 600px;">
+					<div class="x_panel">
 						<div class="x_title">
 							<h2>
-								Cập nhật<small>Thông tin cá nhân</small>
+								Thông tin cán bộ
 							</h2>
 							<div class="clearfix"></div>
 						</div>
@@ -109,8 +116,8 @@
 								<div class="ln_solid"></div>
 								<div class="form-group">
 									<div class="col-md-6 col-md-offset-3">
-										<button id="send" type="submit" class="btn btn-success">Submit</button>
-										<button type="button" class="btn btn-primary">Cancel</button>
+										<button id="send" type="submit" class="btn btn-success">Cập nhật</button>
+										<a class="btn btn-default" href="<%=urlUtils.getPath(UrlCollection.CAN_BO_DANH_SACH) %>">Hủy</a>
 									</div>
 								</div>
 							</form>

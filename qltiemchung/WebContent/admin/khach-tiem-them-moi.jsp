@@ -12,7 +12,7 @@
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Blank Page</h3>
+					<h3>Khách tiêm</h3>
 				</div>
 
 				<div class="title_right">
@@ -24,9 +24,9 @@
 			<div class="row">
 
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="x_panel" style="height: 600px;">
+					<div class="x_panel">
 						<div class="x_title">
-							<h2>Blank Page</h2>
+							<h2>Thêm mới thông tin khách tiêm</h2>
 							<div class="clearfix"></div>
 						</div>
 						<!-- Message -->
@@ -55,7 +55,6 @@
 						<!-- /Message -->
 						<div class="x_content">
 							<!-- Put your code here -->
-							<h1>ĐĂNG KÝ THÔNG TIN KHÁCH TIÊM</h1>
 								<form class="form-horizontal form-label-left" novalidate action="<%=request.getContextPath()%>/doKhachTiemThemMoiServlet" method="post">
 									<div class="item form-group">
 										<label class="control-label col-md-3 col-sm-3 col-xs-12"

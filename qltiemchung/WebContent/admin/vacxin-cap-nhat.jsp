@@ -12,7 +12,7 @@
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Quản lý Vacxin</h3>
+					<h3>Vacxin</h3>
 				</div>
 
 				<div class="title_right">
@@ -24,9 +24,9 @@
 			<div class="row">
 
 				<div class="col-md-12 col-sm-12 col-xs-12">
-					<div class="x_panel" style="height: 600px;">
+					<div class="x_panel">
 						<div class="x_title">
-							<h2>Cập nhật vacxin</h2>
+							<h2>Thông tin vacxin</h2>
 							<div class="clearfix"></div>
 						</div>
 						<!-- Message -->
@@ -85,25 +85,25 @@
 								<div class="item form-group">
 			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Tác dụng </label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-			                        	<textarea name="tacDung" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getTacDung()%>"></c:out> </textarea>
+			                        	<textarea rows="5" name="tacDung" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getTacDung()%>"></c:out> </textarea>
 			                      	</div>
 		                    	</div>
 								<div class="item form-group">
 			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Chỉ định </label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-			                        	<textarea name="chiDinh" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getChiDinh()%>"></c:out> </textarea>
+			                        	<textarea rows="5" name="chiDinh" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getChiDinh()%>"></c:out> </textarea>
 			                      	</div>
 		                    	</div>
 								<div class="item form-group">
 			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Chống Chỉ định </label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-			                        	<textarea name="chongChiDinh" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getChongChiDinh()%>"></c:out> </textarea>
+			                        	<textarea rows="5" name="chongChiDinh" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getChongChiDinh()%>"></c:out> </textarea>
 			                      	</div>
 		                    	</div>
 		                    	<div class="item form-group">
 			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Tác dụng phụ </label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-			                        	<textarea name="tacDungPhu" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getTacDungPhu()%>"></c:out> </textarea>
+			                        	<textarea rows="5" name="tacDungPhu" class="form-control col-md-7 col-xs-12"><c:out value="<%=vacxin.getTacDungPhu()%>"></c:out> </textarea>
 			                      	</div>
 		                    	</div>
 								<div class="ln_solid"></div>

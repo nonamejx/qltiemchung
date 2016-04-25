@@ -16,7 +16,7 @@
 		<div class="">
 			<div class="page-title" style="margin-bottom: 50px">
 				<div class="title_left">
-					<h3>Quản lý tin tức</h3>
+					<h3>Tin tức</h3>
 				</div>
 
 				<div class="title_right">
@@ -95,7 +95,7 @@
 									</div>
 								</div>
 								<div class="item form-group">
-			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12">Loại vacxin</label>
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12">Loại tin</label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12">
 			                        	<select class="form-control" name="loaiTinTuc">
 			                          		<c:if test="${DanhSachLoaiTinTuc.size()!=null && DanhSachLoaiTinTuc.size()>0}">
@@ -118,9 +118,9 @@
 									</div>
 								</div>
 								<div class="item form-group">
-			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Địa chỉ <span class="required">*</span></label>
+			                      	<label class="control-label col-md-3 col-sm-3 col-xs-12" for="textarea">Nội dung <span class="required">*</span></label>
 			                      	<div class="col-md-6 col-sm-6 col-xs-12"	>
-			                        	<textarea required="required" name="noiDung" class="form-control col-md-7 col-xs-12"><c:out value="<%=tinTuc.getNoiDung()%>"></c:out> </textarea>
+			                        	<textarea rows="13" required="required" name="noiDung" class="form-control col-md-7 col-xs-12"><c:out value="<%=tinTuc.getNoiDung()%>"></c:out> </textarea>
 		                        	</div>
 			                    </div>
 							
